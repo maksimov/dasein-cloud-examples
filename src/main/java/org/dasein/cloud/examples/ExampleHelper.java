@@ -25,7 +25,9 @@ import org.dasein.cloud.compute.MachineImage;
 import org.dasein.cloud.compute.MachineImageState;
 import org.dasein.cloud.compute.MachineImageSupport;
 import org.dasein.cloud.compute.Platform;
+import org.dasein.cloud.compute.VMFilterOptions;
 import org.dasein.cloud.compute.VirtualMachineProduct;
+import org.dasein.cloud.compute.VirtualMachineProductFilterOptions;
 import org.dasein.cloud.compute.VirtualMachineSupport;
 import org.dasein.cloud.dc.DataCenter;
 
@@ -128,13 +130,13 @@ public class ExampleHelper {
         }
         VirtualMachineProduct best = null;
 
-        for( VirtualMachineProduct product : support.listProducts(forMachineImage.getArchitecture()) ) {
+        for( VirtualMachineProduct product : support.listProducts(VirtualMachineProductFilterOptions.getInstance().withArchitecture(forMachineImage.getArchitecture())) ) {
             if( best == null ) {
                 best = product;
             }
             else {
-                if( product.getRamInMb() > 1000 ) {
-                    if( product.getRamInMb() < best.getRamInMb() ) {
+                if( product.getRamSize().longValue() > 1000 ) {
+                    if( product.getRamSize().longValue() < best.getRamSize().longValue() ) {
                         best = product;
                     }
                 }
